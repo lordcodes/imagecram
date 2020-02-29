@@ -9,7 +9,7 @@ struct ImageCramCommand: ParsableCommand {
     static let configuration = CommandConfiguration(commandName: "imagecram")
 
     @Argument(help: "The input image file or directory of images")
-    var input: String?
+    var inputs: [String]
 
     @Flag(name: .shortAndLong, help: "Output the version number")
     var version: Bool
@@ -20,10 +20,22 @@ struct ImageCramCommand: ParsableCommand {
     @Flag(name: .shortAndLong, help: "Silence any output except errors")
     var quiet: Bool
 
+    func validate() throws {
+        if version {
+            return
+        }
+        if inputs.isEmpty {
+            throw ValidationError("Please provide at least 1 input file")
+        }
+    }
+
     func run() throws {
         if version {
             print(ImageCramVersion.current)
             return
         }
+
+        print("IN: \(inputs)")
+        print("OUT: \(output)")
     }
 }

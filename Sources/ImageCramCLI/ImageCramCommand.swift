@@ -11,11 +11,11 @@ struct ImageCramCommand: ParsableCommand {
     @Argument(help: "The input image file or directory of images")
     var inputs: [String]
 
-    @Flag(name: .shortAndLong, help: "Output the version number")
-    var version: Bool
-
     @Option(name: .shortAndLong, help: "Output file or directyory")
     var output: String?
+
+    @Flag(name: .shortAndLong, help: "Output the version number")
+    var version: Bool
 
     @Flag(name: .shortAndLong, help: "Silence any output except errors")
     var quiet: Bool
@@ -36,6 +36,9 @@ struct ImageCramCommand: ParsableCommand {
         }
 
         print("IN: \(inputs)")
-        print("OUT: \(output)")
+        print("OUT: \(output ?? "")")
+
+        let compressor = ImageCompressor(apiKey: "n/a")
+        try compressor.compress(filePaths: inputs)
     }
 }

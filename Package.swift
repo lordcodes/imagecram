@@ -17,6 +17,6 @@ let package = Package(
     targets: [
         .target(name: "ImageCram"),
         .target(name: "ImageCramCLI", dependencies: ["ImageCram", "ArgumentParser", "Files"]),
-        .testTarget(name: "ImageCramTests", dependencies: ["ImageCram"])
+        .testTarget(name: "ImageCramTests", dependencies: ["ImageCram", "Files"])
     ]
 )

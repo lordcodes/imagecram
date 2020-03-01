@@ -38,7 +38,15 @@ struct ImageCramCommand: ParsableCommand {
         print("IN: \(inputs)")
         print("OUT: \(output ?? "")")
 
-        let compressor = ImageCompressor(apiKey: "n/a")
+        let apiKeyRepository = ApiKeyRepository()
+        let apiKey = apiKeyRepository.read()
+
+        guard !apiKey.isEmpty else {
+            printError("Missing TinyPNG API key.")
+            return
+        }
+
+        let compressor = ImageCompressor(apiKey: apiKey)
         try compressor.compress(filePaths: inputs)
     }
 }

@@ -5,15 +5,17 @@ import Foundation
 
 public struct ImageCompressor {
     private let apiKey: String
+    private let printer: ImageCramPrinter
     private let parser: FileParser
     private let dispatchGroup = DispatchGroup()
 
-    public init(apiKey: String) {
-        self.init(apiKey: apiKey, parser: FileParser())
+    public init(apiKey: String, printer: ImageCramPrinter) {
+        self.init(apiKey: apiKey, printer: printer, parser: FileParser())
     }
 
-    init(apiKey: String, parser: FileParser) {
+    init(apiKey: String, printer: ImageCramPrinter, parser: FileParser) {
         self.apiKey = apiKey
+        self.printer = printer
         self.parser = parser
     }
 
@@ -21,43 +23,67 @@ public struct ImageCompressor {
         let files = try parser.parse(filePaths: paths)
 
         try files.forEach { file in
-            try compress(file: file)
+            let result = compress(file: file)
+            switch result {
+            case .success:
+                self.printer.output(message: "\(file.path) compressed successfully")
+            case let .failure(error):
+                throw error
+            }
         }
     }
 
-    private func compress(file: File) throws {
+    private func compress(file: File) -> Result<Void, ImageCramError> {
         dispatchGroup.enter()
+        let request = createUploadRequest()
+        let fileUrl = file.url
+        var result: Result<Void, ImageCramError> = Result.success(())
+        let uploadTask = URLSession.shared.uploadTask(with: request, fromFile: fileUrl) { (data, response, error) in
+            result = self.handleUploadResult(file: file, data: data, response: response as? HTTPURLResponse, error: error)
+        }
+        uploadTask.resume()
+        dispatchGroup.wait()
+        return result
+    }
+
+    private func createUploadRequest() -> URLRequest {
+        var request = URLRequest(url: URL(string: "https://api.tinify.com/shrink")!,
+                                 cachePolicy: .useProtocolCachePolicy,
+                                 timeoutInterval: 90.0)
+        request.httpMethod = "POST"
+
         let token = "api:\(apiKey)".data(using: .utf8)!
         let authorization = "Basic \(token.base64EncodedString())"
-        let headers = [
+        request.allHTTPHeaderFields = [
             "authorization": authorization,
             "content-type": "application/x-www-form-urlencoded",
             "cache-control": "no-cache"
         ]
-        var request = URLRequest(url: URL(string: "https://api.tinify.com/shrink")!,
-                                 cachePolicy: .useProtocolCachePolicy,
-                                 timeoutInterval: 90.0)
+        return request
+    }
 
-        request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers
-        let fileUrl = file.url
-        let uploadTask = URLSession.shared.uploadTask(with: request, fromFile: fileUrl) { (data, response, error) in
-            if let httpRes = response as? HTTPURLResponse, httpRes.statusCode == 201 {
-                print("Uploaded successfully")
-                print("Download from: \(httpRes.allHeaderFields["Location"])")
-            } else if let httpRes = response as? HTTPURLResponse, httpRes.statusCode == 401 {
-    //                self.error = NSError(domain: "Unauthorized", code: 401, userInfo: nil)
-                // TODO: Handle unauthorized error
-                print("Unauthorized")
-            } else if let error = error {
-                // TODO: Handle other errors
-                print("Error occurred: \(error)")
-            } else {
-                print("Upload finished")
-            }
-            self.dispatchGroup.leave()
+    private func handleUploadResult(
+        file: File,
+        data: Data?,
+        response: HTTPURLResponse?,
+        error: Error?
+    ) -> Result<Void, ImageCramError> {
+        var result: Result<Void, ImageCramError> = Result.failure(ImageCramError(path: file.path, reason: .other(message: "Unknown")))
+        if let response = response, response.statusCode == 201 {
+            print("Uploaded successfully")
+            print("Download from: \(response.allHeaderFields["Location"])")
+            result = Result.success(())
+        } else if let response = response, response.statusCode == 401 {
+            result = Result.failure(ImageCramError(path: file.path, reason: .unauthorized))
+        } else if let error = error {
+            // TODO: Handle other errors
+            print("Error occurred: \(error)")
+            result = Result.failure(ImageCramError(path: file.path, reason: .other(message: error.localizedDescription)))
+        } else {
+            print("Upload finished")
+            result = Result.failure(ImageCramError(path: file.path, reason: .other(message: "Unknown")))
         }
-        uploadTask.resume()
-        dispatchGroup.wait()
+        dispatchGroup.leave()
+        return result
     }
 }

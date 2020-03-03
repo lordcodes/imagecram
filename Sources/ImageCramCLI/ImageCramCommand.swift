@@ -46,7 +46,8 @@ struct ImageCramCommand: ParsableCommand {
             return
         }
 
-        let compressor = ImageCompressor(apiKey: apiKey)
+        let printer = CommandLinePrinter()
+        let compressor = ImageCompressor(apiKey: apiKey, printer: printer)
         try compressor.compress(filePaths: inputs)
     }
 }

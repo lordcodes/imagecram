@@ -4,6 +4,7 @@ public enum ImageCramErrorReason {
     case emptyFilePath
     case emptyFolder
     case missingFile
+    case unauthorized
     case unexpectedFile
     case unexpectedFolder
 
@@ -19,6 +20,8 @@ extension ImageCramErrorReason: CustomStringConvertible {
             return "Empty folder"
         case .missingFile:
             return "Missing file"
+        case .unauthorized:
+            return "Unauthorized with TinyPNG, please check your API key is set correctly"
         case .unexpectedFile:
             return "Found a file, but expected a folder"
         case .unexpectedFolder:

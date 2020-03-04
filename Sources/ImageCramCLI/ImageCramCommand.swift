@@ -53,10 +53,17 @@ struct ImageCramCommand: ParsableCommand {
             return
         }
 
-        let printer = CommandLinePrinter()
+        let printer = CommandLinePrinter(isQuiet: quiet)
         let compressor = ImageCompressor(apiKey: apiKey, printer: printer)
         for input in inputs {
             let localUrl = try compressor.compress(filePath: input)
+
+            // TODO: Copy the localURL over input file if no output provided
+            // If single input and single output, write the localURL there
+            // If multiple inputs and single output file, error
+            // If multiple inputs and single output folder, write the localURL there using input file name and extension
+            // If no output, then overwrite original input file
+
             print("Compressed successfully: \(input)")
         }
     }

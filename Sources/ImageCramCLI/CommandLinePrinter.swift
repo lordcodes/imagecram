@@ -4,8 +4,12 @@ import Foundation
 import ImageCram
 
 struct CommandLinePrinter : ImageCramPrinter {
+    let isQuiet: Bool
+
     func output(message: @autoclosure () -> String) {
-        print(message())
+        if !isQuiet {
+            print(message())
+        }
     }
 
     func output(error: @autoclosure () -> CustomStringConvertible) {

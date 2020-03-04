@@ -6,14 +6,6 @@ import Foundation
 struct FileParser {
     private let fileManager = FileManager.default
 
-    func parse(filePaths: [String]) throws -> [File] {
-        try filePaths.map { file in
-            try parse(filePath: file)
-        }
-    }
-}
-
-private extension FileParser {
     func parse(filePath: String) throws -> File {
         let exists = fileManager.fileExists(atPath: filePath)
         if !exists {
@@ -25,7 +17,9 @@ private extension FileParser {
             throw parseError(from: error)
         }
     }
+}
 
+private extension FileParser {
     func parseError(from error: Error) -> ImageCramError {
         if let locationError = error as? LocationError {
             let reason = parseErrorReason(from: locationError)

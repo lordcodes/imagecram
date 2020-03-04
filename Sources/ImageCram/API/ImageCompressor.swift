@@ -19,21 +19,8 @@ public struct ImageCompressor {
         self.parser = parser
     }
 
-    public func compress(filePaths paths: [String]) throws {
-        let files = try parser.parse(filePaths: paths)
-
-        try files.forEach { file in
-            let result = compress(file: file)
-            switch result {
-            case .success:
-                self.printer.output(message: "\(file.path) compressed successfully")
-            case let .failure(error):
-                throw error
-            }
-        }
-    }
-
-    private func compress(file: File) -> Result<Void, ImageCramError> {
+    public func compress(filePath path: String) throws {
+        let file = try parser.parse(filePath: path)
         dispatchGroup.enter()
         let request = createUploadRequest()
         let fileUrl = file.url
@@ -43,7 +30,12 @@ public struct ImageCompressor {
         }
         uploadTask.resume()
         dispatchGroup.wait()
-        return result
+        switch result {
+        case .success:
+            self.printer.output(message: "\(file.path) compressed successfully")
+        case let .failure(error):
+            throw error
+        }
     }
 
     private func createUploadRequest() -> URLRequest {
@@ -76,12 +68,11 @@ public struct ImageCompressor {
         } else if let response = response, response.statusCode == 401 {
             result = Result.failure(ImageCramError(path: file.path, reason: .unauthorized))
         } else if let error = error {
-            // TODO: Handle other errors
             print("Error occurred: \(error)")
             result = Result.failure(ImageCramError(path: file.path, reason: .other(message: error.localizedDescription)))
         } else {
             print("Upload finished")
-            result = Result.failure(ImageCramError(path: file.path, reason: .other(message: "Unknown")))
+            result = Result.failure(ImageCramError(path: file.path, reason: .other(message: "Unexpected")))
         }
         dispatchGroup.leave()
         return result

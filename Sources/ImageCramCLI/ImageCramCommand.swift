@@ -42,9 +42,6 @@ struct ImageCramCommand: ParsableCommand {
             return
         }
 
-        print("IN: \(inputs)")
-        print("OUT: \(output ?? "")")
-
         let printer = CommandLinePrinter(isQuiet: quiet)
 
         let apiKeyRepository = ApiKeyRepository(printer: printer)
@@ -60,7 +57,7 @@ struct ImageCramCommand: ParsableCommand {
         for input in inputs {
             let result = try compressor.compress(filePath: input)
             try mover.move(inputPath: input, from: result.localUrl)
-            print("Compressed successfully: \(input)")
+            printer.output(message: "Compressed successfully: \(input)")
         }
     }
 }

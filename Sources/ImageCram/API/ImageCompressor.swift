@@ -4,18 +4,25 @@ import Files
 import Foundation
 
 public struct ImageCompressor {
-    private let apiKey: String
     private let printer: ImageCramPrinter
     private let parser: FileParser
+    private let uploader: Uploader
+    private let downloader: Downloader
 
     public init(apiKey: String, printer: ImageCramPrinter) {
-        self.init(apiKey: apiKey, printer: printer, parser: FileParser())
+        self.init(
+            printer: printer,
+            parser: FileParser(),
+            uploader: UploadTask(apiKey: apiKey),
+            downloader: DownloadTask(apiKey: apiKey)
+        )
     }
 
-    init(apiKey: String, printer: ImageCramPrinter, parser: FileParser) {
-        self.apiKey = apiKey
+    init(printer: ImageCramPrinter, parser: FileParser, uploader: Uploader, downloader: Downloader) {
         self.printer = printer
         self.parser = parser
+        self.uploader = uploader
+        self.downloader = downloader
     }
 
     public func compress(filePath path: String) throws -> CompressResult {
@@ -31,8 +38,7 @@ public struct ImageCompressor {
     }
 
     private func upload(_ file: File) throws -> UploadResult {
-        let uploadTask = UploadTask(apiKey: apiKey)
-        let result = uploadTask.upload(file)
+        let result = uploader.upload(file)
         switch result {
         case let .success(uploaded):
             return uploaded
@@ -42,8 +48,7 @@ public struct ImageCompressor {
     }
 
     private func download(_ url: URL, to file: File) throws -> DownloadResult {
-        let downloadTask = DownloadTask(apiKey: apiKey)
-        let result = downloadTask.download(url, for: file)
+        let result = downloader.download(url, for: file)
         switch result {
         case let .success(downloaded):
             return downloaded

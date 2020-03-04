@@ -3,7 +3,11 @@
 import Files
 import Foundation
 
-struct DownloadTask {
+protocol Downloader {
+    func download(_ url: URL, for inputFile: File) -> Result<DownloadResult, ImageCramError>
+}
+
+struct DownloadTask : Downloader {
     let apiKey: String
     private let dispatchGroup = DispatchGroup()
 

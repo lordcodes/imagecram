@@ -3,7 +3,11 @@
 import Files
 import Foundation
 
-struct UploadTask {
+protocol Uploader {
+    func upload(_ file: File) -> Result<UploadResult, ImageCramError>
+}
+
+struct UploadTask : Uploader {
     let apiKey: String
     private let dispatchGroup = DispatchGroup()
 

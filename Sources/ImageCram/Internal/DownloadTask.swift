@@ -25,7 +25,7 @@ struct DownloadTask {
         var request = URLRequest(url: url,
                                  cachePolicy: .useProtocolCachePolicy,
                                  timeoutInterval: 90.0)
-        request.httpMethod = "POST"
+        request.httpMethod = "GET"
 
         let token = "api:\(apiKey)".data(using: .utf8)!
         let authorization = "Basic \(token.base64EncodedString())"

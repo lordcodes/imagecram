@@ -8,10 +8,10 @@ import ImageCram
 struct ImageCramCommand: ParsableCommand {
     static let configuration = CommandConfiguration(commandName: "imagecram")
 
-    @Argument(help: "The input image file or directory of images")
+    @Argument(help: "One or more input image files")
     var inputs: [String]
 
-    @Option(name: .shortAndLong, help: "Output file or directory")
+    @Option(name: .shortAndLong, help: "Output image file or directory")
     var output: String?
 
     @Flag(name: .shortAndLong, help: "Output the version number")

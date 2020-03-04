@@ -1,6 +1,7 @@
 // Copyright (C) 2020 Andrew Lord
 
 public enum ImageCramErrorReason {
+    case downloadFailed(error: Error)
     case emptyFilePath
     case emptyFolder
     case missingFile
@@ -15,6 +16,8 @@ public enum ImageCramErrorReason {
 extension ImageCramErrorReason: CustomStringConvertible {
     public var description: String {
         switch self {
+        case let .downloadFailed(error):
+            return "Download failed with \(error)"
         case .emptyFilePath:
             return "Empty file path"
         case .emptyFolder:

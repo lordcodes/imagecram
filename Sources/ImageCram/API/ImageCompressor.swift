@@ -18,13 +18,16 @@ public struct ImageCompressor {
         self.parser = parser
     }
 
-    public func compress(filePath path: String) throws {
+    public func compress(filePath path: String) throws -> CompressResult {
         let file = try parser.parse(filePath: path)
 
         let uploadResult = try upload(file)
         printer.output(message: "Uploaded successfully: \(path)")
 
-        _ = try download(uploadResult.output.url, to: file)
+        let downloadResult = try download(uploadResult.output.url, to: file)
+        printer.output(message: "Downloaded successfully for \(file.name)")
+
+        return CompressResult(localUrl: downloadResult.localUrl)
     }
 
     private func upload(_ file: File) throws -> UploadResult {
@@ -38,9 +41,9 @@ public struct ImageCompressor {
         }
     }
 
-    private func download(_ url: URL, to file: File) throws -> Void {
+    private func download(_ url: URL, to file: File) throws -> DownloadResult {
         let downloadTask = DownloadTask(apiKey: apiKey)
-        let result = downloadTask.download(url, to: file)
+        let result = downloadTask.download(url, for: file)
         switch result {
         case let .success(downloaded):
             return downloaded

@@ -19,7 +19,6 @@ struct UploadTask {
         uploadTask.resume()
 
         dispatchGroup.wait()
-
         return result ?? Result.failure(ImageCramError(file, reason: .other("Upload did not complete")))
     }
 

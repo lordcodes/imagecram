@@ -2,20 +2,43 @@
 
 import Files
 import Foundation
+import ImageCram
 
 private let preferencesPath = "Library/Preferences/ImageCram"
 private let preferencesFile = "apikey.txt"
 
 struct ApiKeyRepository {
-    func read() -> String {
-        let storedKey = readStoredKey()
+    let printer: CommandLinePrinter
+
+    func read() throws -> String {
+        let storedKey = try readStoredKey()
         guard let apiKey = storedKey, !apiKey.isEmpty else {
-            return readNewKey()
+            return try readNewKey()
         }
         return apiKey
     }
 
-    func write(apiKey: String) {
+    private func readStoredKey() throws -> String? {
+        do {
+            let preferences = try Folder.home.subfolder(at: preferencesPath)
+            let apiKeyFile = try preferences.file(named: preferencesFile)
+            return try apiKeyFile.readAsString()
+        } catch {
+            printer.output(message: "Couldn't find a stored API key")
+            return nil
+        }
+    }
+
+    private func readNewKey() throws -> String {
+        printer.forcedOutput(message: "Please enter your TinyPNG API key. More details at https://tinypng.com/developers")
+        let newKey = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if !newKey.isEmpty {
+            try write(apiKey: newKey)
+        }
+        return newKey
+    }
+
+    private func write(apiKey: String) throws {
         ensurePreferencesExists()
 
         do {
@@ -23,33 +46,11 @@ struct ApiKeyRepository {
             let apiKeyFile = try preferences.file(named: preferencesFile)
             try apiKeyFile.write(apiKey)
         } catch {
-            // TODO: Handle different errors to here and log details of why no API key was found
-        }
-    }
-}
-
-private extension ApiKeyRepository {
-    func readStoredKey() -> String? {
-        do {
-            let preferences = try Folder.home.subfolder(at: preferencesPath)
-            let apiKeyFile = try preferences.file(named: preferencesFile)
-            return try apiKeyFile.readAsString()
-        } catch {
-            // TODO: Handle different errors to here and log details of why no API key was found
-            return nil
+            throw parseError(from: error)
         }
     }
 
-    func readNewKey() -> String {
-        let newKey = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        if !newKey.isEmpty {
-            write(apiKey: newKey)
-        }
-        return newKey
-    }
-
-    // TODO: Handle errors rather than using try?
-    func ensurePreferencesExists() {
+    private func ensurePreferencesExists() {
         let root = Folder.home
         if !root.containsSubfolder(at: preferencesPath) {
             _ = try? root.createSubfolder(at: preferencesPath)
@@ -57,6 +58,26 @@ private extension ApiKeyRepository {
         let preferences = try? root.subfolder(at: preferencesPath)
         if preferences?.containsFile(named: preferencesFile) == false {
             _ = try? preferences?.createFile(named: preferencesFile)
+        }
+    }
+
+    private func parseError(from error: Error) -> CommandLineError {
+        if let locationError = error as? LocationError {
+            return locationError.forCommandLine()
+        }
+        return .apiKeyFileInvalid
+    }
+}
+
+private extension LocationError {
+    func forCommandLine() -> CommandLineError {
+        switch reason {
+        case .emptyFilePath:
+            return .apiKeyFilePathEmpty
+        case .missing:
+            return .apiKeyFileMissing
+        default:
+            return .apiKeyFileInvalid
         }
     }
 }

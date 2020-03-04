@@ -12,6 +12,10 @@ struct CommandLinePrinter : ImageCramPrinter {
         }
     }
 
+    func forcedOutput(message: String) {
+        print(message)
+    }
+
     func output(error: @autoclosure () -> CustomStringConvertible) {
         fputs("\(error())\n", stderr)
     }

@@ -17,10 +17,8 @@ struct FileParser {
             throw parseError(for: filePath, from: error)
         }
     }
-}
 
-private extension FileParser {
-    func parseError(for path: String, from error: Error) -> ImageCramError {
+    private func parseError(for path: String, from error: Error) -> ImageCramError {
         if let locationError = error as? LocationError {
             let reason = parseErrorReason(from: locationError)
             return ImageCramError(path, reason: reason)
@@ -28,7 +26,7 @@ private extension FileParser {
         return ImageCramError(path, reason: .other(error.localizedDescription))
     }
 
-    func parseErrorReason(from error: LocationError) -> ImageCramErrorReason {
+    private func parseErrorReason(from error: LocationError) -> ImageCramErrorReason {
         switch error.reason {
         case .emptyFilePath:
             return .emptyFilePath

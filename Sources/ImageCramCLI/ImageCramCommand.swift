@@ -11,7 +11,7 @@ struct ImageCramCommand: ParsableCommand {
     @Argument(help: "The input image file or directory of images")
     var inputs: [String]
 
-    @Option(name: .shortAndLong, help: "Output file or directyory")
+    @Option(name: .shortAndLong, help: "Output file or directory")
     var output: String?
 
     @Flag(name: .shortAndLong, help: "Output the version number")
@@ -26,6 +26,13 @@ struct ImageCramCommand: ParsableCommand {
         }
         if inputs.isEmpty {
             throw ValidationError("Please provide at least 1 input file")
+        }
+        if inputs.count > 1, let output = output {
+            do {
+                _ = try Folder(path: output)
+            } catch {
+                throw ValidationError("Specified output should be a folder that exists, if multiple input files are provided")
+            }
         }
     }
 

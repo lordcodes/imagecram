@@ -20,13 +20,16 @@ struct ApiKeyRepository {
 
     private func readStoredKey() throws -> String? {
         do {
-            let preferences = try Folder.home.subfolder(at: preferencesPath)
-            let apiKeyFile = try preferences.file(named: preferencesFile)
-            return try apiKeyFile.readAsString()
+            return try findApiKeyFile().readAsString()
         } catch {
             printer.output(message: "Couldn't find a stored API key")
             return nil
         }
+    }
+
+    private func findApiKeyFile() throws -> File {
+        let preferences = try Folder.home.subfolder(at: preferencesPath)
+        return try preferences.file(named: preferencesFile)
     }
 
     private func readNewKey() throws -> String {
@@ -42,11 +45,9 @@ struct ApiKeyRepository {
         ensurePreferencesExists()
 
         do {
-            let preferences = try Folder.home.subfolder(at: preferencesPath)
-            let apiKeyFile = try preferences.file(named: preferencesFile)
-            try apiKeyFile.write(apiKey)
+            try findApiKeyFile().write(apiKey)
         } catch {
-            throw parseError(from: error)
+            throw CommandLineError.apiKeyFileInvalid
         }
     }
 
@@ -58,26 +59,6 @@ struct ApiKeyRepository {
         let preferences = try? root.subfolder(at: preferencesPath)
         if preferences?.containsFile(named: preferencesFile) == false {
             _ = try? preferences?.createFile(named: preferencesFile)
-        }
-    }
-
-    private func parseError(from error: Error) -> CommandLineError {
-        if let locationError = error as? LocationError {
-            return locationError.forCommandLine()
-        }
-        return .apiKeyFileInvalid
-    }
-}
-
-private extension LocationError {
-    func forCommandLine() -> CommandLineError {
-        switch reason {
-        case .emptyFilePath:
-            return .apiKeyFilePathEmpty
-        case .missing:
-            return .apiKeyFileMissing
-        default:
-            return .apiKeyFileInvalid
         }
     }
 }

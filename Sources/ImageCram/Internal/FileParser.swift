@@ -9,23 +9,23 @@ struct FileParser {
     func parse(filePath: String) throws -> File {
         let exists = fileManager.fileExists(atPath: filePath)
         if !exists {
-            throw ImageCramError(path: filePath, reason: .missingFile)
+            throw ImageCramError(filePath, reason: .missingFile)
         }
         do {
             return try File(path: filePath)
         } catch {
-            throw parseError(from: error)
+            throw parseError(for: filePath, from: error)
         }
     }
 }
 
 private extension FileParser {
-    func parseError(from error: Error) -> ImageCramError {
+    func parseError(for path: String, from error: Error) -> ImageCramError {
         if let locationError = error as? LocationError {
             let reason = parseErrorReason(from: locationError)
-            return ImageCramError(path: locationError.path, reason: reason)
+            return ImageCramError(path, reason: reason)
         }
-        return ImageCramError(path: "path", reason: .other(message: error.localizedDescription))
+        return ImageCramError(path, reason: .other(error.localizedDescription))
     }
 
     func parseErrorReason(from error: LocationError) -> ImageCramErrorReason {
@@ -35,7 +35,7 @@ private extension FileParser {
         case .missing:
             return .unexpectedFolder
         default:
-            return .other(message: error.localizedDescription)
+            return .other(error.localizedDescription)
         }
     }
 }

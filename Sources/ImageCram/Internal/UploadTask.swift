@@ -7,12 +7,12 @@ struct UploadTask {
     let apiKey: String
     private let dispatchGroup = DispatchGroup()
 
-    func upload(_ file: File) -> Result<Void, ImageCramError> {
+    func upload(_ file: File) -> Result<UploadResult, ImageCramError> {
         dispatchGroup.enter()
 
         let request = createUploadRequest()
         let fileUrl = file.url
-        var result: Result<Void, ImageCramError> = Result.success(())
+        var result: Result<UploadResult, ImageCramError>?
         let uploadTask = URLSession.shared.uploadTask(with: request, fromFile: fileUrl) { (data, response, error) in
             result = self.handleUploadResult(file: file, data: data, response: response as? HTTPURLResponse, error: error)
         }
@@ -20,7 +20,7 @@ struct UploadTask {
 
         dispatchGroup.wait()
 
-        return result
+        return result ?? Result.failure(ImageCramError(file, reason: .other("Upload did not complete")))
     }
 
     private func createUploadRequest() -> URLRequest {
@@ -44,18 +44,37 @@ struct UploadTask {
         data: Data?,
         response: HTTPURLResponse?,
         error: Error?
-    ) -> Result<Void, ImageCramError> {
-        var result: Result<Void, ImageCramError> = Result.failure(ImageCramError(path: file.path, reason: .other(message: "Unknown")))
-        if let response = response, response.statusCode == 201 {
-            print("Download from: \(response.allHeaderFields["Location"])")
-            result = Result.success(())
+    ) -> Result<UploadResult, ImageCramError> {
+        if let response = response, response.statusCode == 201, let data = data {
+            return parseResult(for: file, from: data)
+        } else if let response = response, response.statusCode >= 400 && response.statusCode < 600, let data = data {
+            return parseError(for: file, from: data)
         } else if let response = response, response.statusCode == 401 {
-            result = Result.failure(ImageCramError(path: file.path, reason: .unauthorized))
+            return uploadResult(Result.failure(ImageCramError(file, reason: .unauthorized)))
         } else if let error = error {
-            result = Result.failure(ImageCramError(path: file.path, reason: .other(message: error.localizedDescription)))
-        } else {
-            result = Result.failure(ImageCramError(path: file.path, reason: .other(message: "Unexpected")))
+            return uploadResult(Result.failure(ImageCramError(file, reason: .other(error.localizedDescription))))
         }
+        return uploadResult(Result.failure(ImageCramError(file, reason: .other("Unexpected"))))
+    }
+
+    private func parseResult(for file: File, from data: Data) -> Result<UploadResult, ImageCramError> {
+        do {
+            return uploadResult(Result.success(try data.decoded()))
+        } catch {
+            return uploadResult(Result.failure(ImageCramError(file, reason: .uploadFailed(error: error))))
+        }
+    }
+
+    private func parseError(for file: File, from data: Data) -> Result<UploadResult, ImageCramError> {
+        do {
+            let apiError = try data.decoded(as: ApiError.self)
+            return uploadResult(Result.failure(ImageCramError(file, reason: .uploadFailed(error: apiError))))
+        } catch {
+            return uploadResult(Result.failure(ImageCramError(file, reason: .uploadFailed(error: error))))
+        }
+    }
+
+    private func uploadResult(_ result: Result<UploadResult, ImageCramError>) -> Result<UploadResult, ImageCramError> {
         dispatchGroup.leave()
         return result
     }

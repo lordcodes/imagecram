@@ -7,8 +7,9 @@ public enum ImageCramErrorReason {
     case unauthorized
     case unexpectedFile
     case unexpectedFolder
+    case uploadFailed(error: Error)
 
-    case other(message: String)
+    case other(_ message: String)
 }
 
 extension ImageCramErrorReason: CustomStringConvertible {
@@ -26,6 +27,8 @@ extension ImageCramErrorReason: CustomStringConvertible {
             return "Found a file, but expected a folder"
         case .unexpectedFolder:
             return "Found a folder, but expected a file"
+        case let .uploadFailed(error):
+            return "Upload failed with \(error)"
         case .other(let message):
             return message
         }

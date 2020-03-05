@@ -74,6 +74,15 @@
         }
       },
       {
+        "package": "SwiftFormat",
+        "repositoryURL": "https://github.com/nicklockwood/SwiftFormat",
+        "state": {
+          "branch": null,
+          "revision": "a935652f66f5d2c1ad82951d4bdb69b005e82803",
+          "version": "0.44.4"
+        }
+      },
+      {
         "package": "SwiftLint",
         "repositoryURL": "https://github.com/realm/SwiftLint",
         "state": {

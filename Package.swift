@@ -12,6 +12,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/realm/SwiftLint", from: "0.39.1"),
+        .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.44.4"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.0.1"),
         .package(url: "https://github.com/JohnSundell/Files", from: "4.0.0")
     ],

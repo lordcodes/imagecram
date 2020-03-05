@@ -7,7 +7,7 @@ protocol Uploader {
     func upload(_ file: File) -> Result<UploadResult, ImageCramError>
 }
 
-struct UploadTask : Uploader {
+struct UploadTask: Uploader {
     let apiKey: String
     private let dispatchGroup = DispatchGroup()
 
@@ -27,9 +27,11 @@ struct UploadTask : Uploader {
     }
 
     private func createUploadRequest() -> URLRequest {
-        var request = URLRequest(url: URL(string: "https://api.tinify.com/shrink")!,
-                                 cachePolicy: .useProtocolCachePolicy,
-                                 timeoutInterval: 90.0)
+        var request = URLRequest(
+            url: URL(string: "https://api.tinify.com/shrink")!,
+            cachePolicy: .useProtocolCachePolicy,
+            timeoutInterval: 90.0
+        )
         request.httpMethod = "POST"
 
         let token = "api:\(apiKey)".data(using: .utf8)!

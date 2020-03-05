@@ -7,7 +7,7 @@ protocol Downloader {
     func download(_ url: URL, for inputFile: File) -> Result<DownloadResult, ImageCramError>
 }
 
-struct DownloadTask : Downloader {
+struct DownloadTask: Downloader {
     let apiKey: String
     private let dispatchGroup = DispatchGroup()
 
@@ -26,9 +26,11 @@ struct DownloadTask : Downloader {
     }
 
     private func createDownloadRequest(for url: URL) -> URLRequest {
-        var request = URLRequest(url: url,
-                                 cachePolicy: .useProtocolCachePolicy,
-                                 timeoutInterval: 90.0)
+        var request = URLRequest(
+            url: url,
+            cachePolicy: .useProtocolCachePolicy,
+            timeoutInterval: 90.0
+        )
         request.httpMethod = "GET"
 
         let token = "api:\(apiKey)".data(using: .utf8)!
@@ -49,11 +51,11 @@ struct DownloadTask : Downloader {
         if let localUrl = localUrl {
             return downloadResult(Result.success(DownloadResult(localUrl: localUrl)))
         } else if let response = response, response.statusCode == 401 {
-           return downloadResult(Result.failure(ImageCramError(inputFile, reason: .unauthorized)))
-       } else if let error = error {
-           return downloadResult(Result.failure(ImageCramError(inputFile, reason: .other(error.localizedDescription))))
-       }
-       return downloadResult(Result.failure(ImageCramError(inputFile, reason: .other("Unexpected"))))
+            return downloadResult(Result.failure(ImageCramError(inputFile, reason: .unauthorized)))
+        } else if let error = error {
+            return downloadResult(Result.failure(ImageCramError(inputFile, reason: .other(error.localizedDescription))))
+        }
+        return downloadResult(Result.failure(ImageCramError(inputFile, reason: .other("Unexpected"))))
     }
 
     private func downloadResult(_ result: Result<DownloadResult, ImageCramError>) -> Result<DownloadResult, ImageCramError> {

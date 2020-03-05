@@ -24,9 +24,6 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Install Mint
-      run: |
-        git clone https://github.com/yonaskolb/Mint.git /tmp/Mint
-        cd /tmp/Mint
-        swift run mint install yonaskolb/mint
+      run: brew install mint
     - name: Run SwiftLint
-      run: mint run realm/SwiftLint
+      run: mint run swiftlint

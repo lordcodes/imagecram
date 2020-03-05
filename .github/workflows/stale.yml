@@ -1,4 +1,4 @@
-name: Mark stale issues and pull requests
+name: Mark stale issues and PRs
 
 on:
   schedule:
@@ -6,14 +6,12 @@ on:
 
 jobs:
   stale:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/stale@v1
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        stale-issue-message: 'There hasn\'t been any activity in a while, please consider closing if this is no longer an issue.'
-        stale-pr-message: 'There hasn\'t been any activity in a while, please consider closing if this is no longer needed.'
-        stale-issue-label: 'stale'
-        stale-pr-label: 'stale'
+        stale-issue-message: "There hasn't been any activity in a while, please consider closing if this is no longer an issue."
+        stale-pr-message: "There hasn't been any activity in a while, please consider closing if this is no longer needed."
+        stale-issue-label: "stale"
+        stale-pr-label: "stale"

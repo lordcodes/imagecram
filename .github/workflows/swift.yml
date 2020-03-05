@@ -10,8 +10,20 @@ jobs:
   test:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      run: swift build -v
-    - name: Run tests
-      run: swift test -v
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v1
+        with:
+          path: .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Install Dependencies
+        run: swift package update
+
+      - name: Build
+        run: swift build -v
+
+      - name: Run tests
+        run: swift test -v

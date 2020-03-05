@@ -16,7 +16,7 @@ struct DownloadTask: Downloader {
 
         let request = createDownloadRequest(for: url)
         var result: Result<DownloadResult, ImageCramError>?
-        let downloadTask = URLSession.shared.downloadTask(with: request) { (localUrl, response, error) in
+        let downloadTask = URLSession.shared.downloadTask(with: request) { localUrl, response, error in
             result = self.handleDownloadResult(inputFile: inputFile, localUrl: localUrl, response: response as? HTTPURLResponse, error: error)
         }
         downloadTask.resume()
@@ -37,7 +37,7 @@ struct DownloadTask: Downloader {
         let authorization = "Basic \(token.base64EncodedString())"
         request.allHTTPHeaderFields = [
             "authorization": authorization,
-            "cache-control": "no-cache"
+            "cache-control": "no-cache",
         ]
         return request
     }

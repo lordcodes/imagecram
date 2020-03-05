@@ -17,7 +17,7 @@ struct UploadTask: Uploader {
         let request = createUploadRequest()
         let fileUrl = file.url
         var result: Result<UploadResult, ImageCramError>?
-        let uploadTask = URLSession.shared.uploadTask(with: request, fromFile: fileUrl) { (data, response, error) in
+        let uploadTask = URLSession.shared.uploadTask(with: request, fromFile: fileUrl) { data, response, error in
             result = self.handleUploadResult(file: file, data: data, response: response as? HTTPURLResponse, error: error)
         }
         uploadTask.resume()
@@ -39,7 +39,7 @@ struct UploadTask: Uploader {
         request.allHTTPHeaderFields = [
             "authorization": authorization,
             "content-type": "application/x-www-form-urlencoded",
-            "cache-control": "no-cache"
+            "cache-control": "no-cache",
         ]
         return request
     }
@@ -52,7 +52,7 @@ struct UploadTask: Uploader {
     ) -> Result<UploadResult, ImageCramError> {
         if let response = response, response.statusCode == 201, let data = data {
             return parseResult(for: file, from: data)
-        } else if let response = response, response.statusCode >= 400 && response.statusCode < 600, let data = data {
+        } else if let response = response, response.statusCode >= 400, response.statusCode < 600, let data = data {
             return parseError(for: file, from: data)
         } else if let response = response, response.statusCode == 401 {
             return uploadResult(Result.failure(ImageCramError(file, reason: .unauthorized)))

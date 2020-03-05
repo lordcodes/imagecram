@@ -32,7 +32,7 @@ extension ImageCramErrorReason: CustomStringConvertible {
             return "Found a folder, but expected a file"
         case let .uploadFailed(error):
             return "Upload failed with \(error)"
-        case .other(let message):
+        case let .other(message):
             return message
         }
     }

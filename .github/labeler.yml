@@ -3,7 +3,7 @@ repo:
   - ./*
 
 documentation:
-  - *.md
+  - "*.md"
 
 tests:
   - Tests/**/*

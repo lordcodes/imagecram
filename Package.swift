@@ -11,6 +11,7 @@ let package = Package(
         .executable(name: "imagecram-cli", targets: ["ImageCramCLI"])
     ],
     dependencies: [
+        .package(url: "https://github.com/realm/SwiftLint", from: "0.39.1"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "0.0.1"),
         .package(url: "https://github.com/JohnSundell/Files", from: "4.0.0")
     ],

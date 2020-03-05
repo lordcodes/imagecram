@@ -23,7 +23,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install Mint
-      run: brew install mint
     - name: Run SwiftLint
-      run: mint run swiftlint
+      run: swift run swiftlint

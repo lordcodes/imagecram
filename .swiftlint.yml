@@ -54,6 +54,9 @@ nesting:
 private_unit_test:
   severity: error
 
+trailing_comma:
+  mandatory_comma: true
+
 type_name:
   min_length:
     error: 1

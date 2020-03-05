@@ -15,7 +15,7 @@ let package = Package(
         .package(url: "https://github.com/JohnSundell/Files", from: "4.0.0")
     ],
     targets: [
-        .target(name: "ImageCram"),
+        .target(name: "ImageCram", dependencies: ["Files"]),
         .target(name: "ImageCramCLI", dependencies: ["ImageCram", "ArgumentParser", "Files"]),
         .testTarget(name: "ImageCramTests", dependencies: ["ImageCram", "Files"])
     ]

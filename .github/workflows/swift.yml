@@ -19,8 +19,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-spm-
 
-      - name: Install Dependencies
-        run: swift package update
+      # - name: Install Dependencies
+      #   run: swift package update
 
       - name: Build
         run: swift build -v

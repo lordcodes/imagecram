@@ -9,7 +9,7 @@ struct ShellError: Error, CustomStringConvertible {
     }
 }
 
-func runShell(command: String, with arguments: [String] = [], continueOnError: Bool = false) throws {
+func runShell(_ command: String, with arguments: [String] = [], continueOnError: Bool = false) throws {
     do {
         try shellOut(
             to: command,

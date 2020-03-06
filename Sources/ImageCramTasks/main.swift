@@ -7,7 +7,7 @@ struct Tasks: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "tasks",
         abstract: "A task runner for ImageCram, such as linting, testing and other automations.",
-        subcommands: [Linting.self, Formatting.self, Install.self]
+        subcommands: [Linting.self, Formatting.self, Install.self, Uninstall.self]
     )
 }
 
@@ -19,8 +19,8 @@ extension Tasks {
         )
 
         func run() throws {
-            try runShell(command: "swift run swiftformat . --lint", continueOnError: true)
-            try runShell(command: "swift run swiftlint")
+            try runShell("swift run swiftformat . --lint", continueOnError: true)
+            try runShell("swift run swiftlint")
         }
     }
 }
@@ -33,8 +33,8 @@ extension Tasks {
         )
 
         func run() throws {
-            try runShell(command: "swift run swiftformat .", continueOnError: true)
-            try runShell(command: "swift run swiftlint autocorrect")
+            try runShell("swift run swiftformat .", continueOnError: true)
+            try runShell("swift run swiftlint autocorrect")
         }
     }
 }
@@ -47,8 +47,21 @@ extension Tasks {
         )
 
         func run() throws {
-            try runShell(command: "swift build -c release")
-            try runShell(command: "install .build/release/imagecram-cli /usr/local/bin/imagecram")
+            try runShell("swift build -c release")
+            try runShell("install .build/release/imagecram-cli /usr/local/bin/imagecram")
+        }
+    }
+}
+
+extension Tasks {
+    struct Uninstall: ParsableCommand {
+        static var configuration = CommandConfiguration(
+            commandName: "uninstall",
+            abstract: "Uninstall ImageCram and remove from system."
+        )
+
+        func run() throws {
+            try runShell("rm -f /usr/local/bin/imagecram")
         }
     }
 }

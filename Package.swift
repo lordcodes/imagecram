@@ -9,7 +9,7 @@ let package = Package(
     products: [
         .library(name: "ImageCram", targets: ["ImageCram"]),
         .executable(name: "imagecram-cli", targets: ["ImageCramCLI"]),
-        .executable(name: "imagecram-tasks", targets: ["ImageCramTasks"]),
+        .executable(name: "task", targets: ["ImageCramTasks"]),
     ],
     dependencies: [
         .package(url: "https://github.com/realm/SwiftLint", from: "0.39.1"),

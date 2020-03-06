@@ -23,5 +23,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Run SwiftLint
-      run: swift run imagecram-tasks lint
+    - name: Run Linting
+      run: swift run task lint

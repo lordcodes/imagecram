@@ -38,7 +38,7 @@ struct ImageCramCommand: ParsableCommand {
 
     func run() throws {
         if version {
-            print(ImageCramVersion.current)
+            print(Version.current)
             return
         }
 

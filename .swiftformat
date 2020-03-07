@@ -1,0 +1,10 @@
+# format options
+
+--ifdef noindent
+--stripunusedargs closure-only
+
+# rules
+
+# file options
+
+--exclude .build

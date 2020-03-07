@@ -11,7 +11,17 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
+
     - name: Build
       run: swift build -v
+
     - name: Run tests
       run: swift test -v
+
+  lint:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run Linting
+      run: swift run task lint

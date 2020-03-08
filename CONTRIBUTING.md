@@ -7,12 +7,12 @@ If this is your first time contributing to Imagecram, please have a read through
 * Compare the version you have installed with `imagecram -v` and check it against [the latest version](https://github.com/lordcodes/imagecram/releases).
 * Check the issue hasn't [already been reported](https://github.com/lordcodes/imagecram/issues).
 * Check there isn't already an [open pull request](https://github.com/lordcodes/imagecram/pulls) to fix the issue.
-* [Open an issue](https://github.com/lordcodes/imagecram/issues/new) providing as much information as possible.
+* [Open an issue](https://github.com/lordcodes/imagecram/issues/new/choose) providing as much information as possible.
 
 ## Suggesting a new feature
 
 * Check the feature hasn't [already been requested](https://github.com/lordcodes/imagecram/issues).
-* [Open an issue](https://github.com/lordcodes/imagecram/issues/new) providing a detailed description of the new feature, why you think it is needed and how it will be useful to other users.
+* [Open an issue](https://github.com/lordcodes/imagecram/issues/new/choose) providing a detailed description of the new feature, why you think it is needed and how it will be useful to other users.
 * If it makes sense for the feature to be added to Imagecram, [a pull request](https://github.com/lordcodes/imagecram/compare) adding the feature would be very much appreciated.
 
 Thanks!

@@ -15,4 +15,12 @@ If this is your first time contributing to Imagecram, please have a read through
 * [Open an issue](https://github.com/lordcodes/imagecram/issues/new/choose) providing a detailed description of the new feature, why you think it is needed and how it will be useful to other users.
 * If it makes sense for the feature to be added to Imagecram, [a pull request](https://github.com/lordcodes/imagecram/compare) adding the feature would be very much appreciated.
 
+## Developing
+
+* Ensure you have the latest version of Swift installed, the easiest way is via Xcode.
+* Clone the repository.
+* To build: `swift build`.
+* To test: `swift test`.
+* To run locally: `swift run imagecram-cli`
+
 Thanks!

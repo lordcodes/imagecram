@@ -1,7 +1,6 @@
 ---
 name: "Feature request \U0001F6E0"
 about: "Suggest an idea for a new feature \U0001F9E0"
-title: "[FEATURE]"
 labels: enhancement
 ---
 

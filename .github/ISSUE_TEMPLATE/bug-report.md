@@ -1,7 +1,6 @@
 ---
 name: "Bug report \U0001F41B"
 about: "Something isn't working correctly \U0001F915"
-title: "[BUG]"
 labels: bug
 ---
 

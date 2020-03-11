@@ -9,11 +9,10 @@ struct ShellError: Error, CustomStringConvertible {
     }
 }
 
-func runShell(_ command: String, with arguments: [String] = [], continueOnError: Bool = false) throws {
+func runShell(_ command: String, continueOnError: Bool = false) throws {
     do {
         try shellOut(
             to: command,
-            arguments: arguments,
             outputHandle: .standardOutput,
             errorHandle: .standardError
         )

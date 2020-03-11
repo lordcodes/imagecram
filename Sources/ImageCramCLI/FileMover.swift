@@ -23,9 +23,11 @@ struct FileMover {
         guard let outputPath = outputPath else {
             return inputFile.url
         }
-        guard let outputFolder = try? Folder(path: outputPath) else {
-            return URL(fileURLWithPath: outputPath)
+        let outputUrl = URL(fileURLWithPath: outputPath)
+        if outputUrl.pathExtension.isEmpty {
+            try FileManager.default.createDirectory(at: outputUrl, withIntermediateDirectories: true, attributes: [:])
+            return outputUrl.appendingPathComponent(inputFile.name)
         }
-        return URL(fileURLWithPath: outputFolder.path + "/" + inputFile.name)
+        return outputUrl
     }
 }

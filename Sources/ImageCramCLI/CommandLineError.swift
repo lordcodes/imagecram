@@ -22,7 +22,7 @@ extension CommandLineError: CustomStringConvertible {
         case .apiKeyFileInvalid:
             return "API key file is missing, please try re-running, then updating ImageCram and then reporting the issue on GitHub if it persists."
         case let .failedToMoveFile(from, to):
-            return "Failed to remove file from \(from) to \(to)"
+            return "Failed to move file from \(from) to \(to)"
         case let .invalidInputFile(path):
             return "Cannot read input file at \(path)"
         case let .invalidOutput(path):

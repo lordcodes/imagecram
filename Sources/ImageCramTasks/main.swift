@@ -62,6 +62,7 @@ extension Tasks {
 
         func run() throws {
             try runShell("rm -f /usr/local/bin/imagecram")
+            try runShell("rm -rf ~/Library/Preferences/ImageCram")
         }
     }
 }

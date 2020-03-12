@@ -4,7 +4,6 @@ import Files
 import Foundation
 
 struct FileMover {
-    let printer: CommandLinePrinter
     let outputPath: String?
 
     func move(inputPath: String, from localUrl: URL) throws {

@@ -21,6 +21,8 @@ If this is your first time contributing to Imagecram, please have a read through
 * Clone the repository.
 * To build: `swift build`.
 * To test: `swift test`.
+* To format code: `swift run task format`.
+* To run lint: `swift run task lint`.
 * To run locally: `swift run imagecram-cli`
 
 Thanks!

@@ -3,11 +3,10 @@
 ### Checklist
 - [ ] I've read the [guide for contributing](https://github.com/lordcodes/imagecram/blob/master/CONTRIBUTING.md).
 - [ ] I've checked there are no other [open pull requests](https://github.com/lordcodes/imagecram/pulls) for the same change.
-- [ ] I've made sure all the tests pass with `swift test`.
 - [ ] I've formatted all code changes with `swift run task format`.
 - [ ] I've ran all checks with `swift run task lint`.
 - [ ] I've updated documentation if needed.
-- [ ] I've added or updated tests for changes.
+- [ ] I've tested all changes are working as intended.
 
 ### Reason for change
 <!-- If the pull request fixes an open issue, please include a link to the issue here. -->

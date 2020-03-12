@@ -1,11 +1,24 @@
-# Imagecram 🗜
+<p align="center">
+    <img src="Art/logo.png" width="500" max-width="90%" alt="Imagecram" />
+</p>
 
-[![SPM](https://img.shields.io/badge/spm-compatible-brightgreen.svg)](https://swift.org/package-manager)
-![Platforms](https://img.shields.io/badge/Platforms-macOS-blue.svg)
-[![Git Version](https://img.shields.io/github/release/lordcodes/imagecram.svg)](https://github.com/lordcodes/imagecram/releases)
-[![license](https://img.shields.io/github/license/lordcodes/imagecram.svg)](https://github.com/lordcodes/imagecram/blob/master/LICENSE)
+<p align="center">
+    <img src="https://img.shields.io/badge/Swift-5.1-orange.svg" />
+    <a href="https://swift.org/package-manager">
+        <img src="https://img.shields.io/badge/swiftpm-compatible-brightgreen.svg?style=flat" alt="Swift Package Manager" />
+    </a>
+     <img src="https://img.shields.io/badge/platforms-mac+linux-brightgreen.svg?style=flat" alt="Mac + Linux" />
+     <a href="https://github.com/lordcodes/imagecram/releases/latest">
+         <img src="https://img.shields.io/github/release/lordcodes/imagecram.svg?style=flat" alt="Latest release" />
+     </a>
+    <a href="https://twitter.com/lordcodes">
+        <img src="https://img.shields.io/badge/twitter-@lordcodes-blue.svg?style=flat" alt="Twitter: @lordcodes" />
+    </a>
+</p>
 
-A command line tool to compress and optimise images using the [TinyPNG service](https://tinypng.com).
+This is **Imagecram** - a tool to quickly and easily compress images straight from your command line.
+
+Compression is currently handled using the really powerful [TinyPNG service](https://tinypng.com).
 
 ## Features
 
@@ -101,6 +114,10 @@ imagecram old.png -o new.png
 ```
 imagecram *.png -o compressed
 ```
+
+## Future
+
+The plan is to implement image compression within the tool itself to remove the restriction of providing a TinyPNG API key and being limited on how many images they will compress for free each month. There is currently no time-frame on this and it will depend on simplicity and how effectively it compresses the images.
 
 ## Contributing or Help
 

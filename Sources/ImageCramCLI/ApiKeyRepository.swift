@@ -33,7 +33,13 @@ struct ApiKeyRepository {
     }
 
     private func readNewKey() throws -> String {
-        printer.forcedOutput(message: "Please enter your TinyPNG API key. More details at https://tinypng.com/developers")
+        let instructions = """
+        Please enter your TinyPNG API key.
+        If you already have a TinyPNG account, you can get the API key from: https://tinypng.com/dashboard/api.
+        Otherwise, you can find more details at https://tinypng.com/developers.
+        """
+        printer.forcedOutput(message: instructions)
+
         let newKey = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if !newKey.isEmpty {
             try write(apiKey: newKey)

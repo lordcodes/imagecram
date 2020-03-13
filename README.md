@@ -16,9 +16,17 @@
     </a>
 </p>
 
+---
+
 This is **Imagecram** - a tool to quickly and easily compress images straight from your command line.
 
 Compression is currently handled using the really powerful [TinyPNG service](https://tinypng.com).
+
+&nbsp;
+
+<p align="center">
+    <a href="#features">Features</a> • <a href="#install">Install</a> • <a href="#usage">Usage</a> • <a href="#contributing-or-help">Contributing</a>
+</p>
 
 ## Features
 
@@ -123,4 +131,4 @@ The plan is to implement image compression within the tool itself to remove the 
 
 If you notice any bugs or have a new feature to suggest, please check out the [contributing guide](https://github.com/lordcodes/imagecram/blob/master/CONTRIBUTING.md). If you want to make changes, please make sure to discuss anything big before putting in the effort of creating the PR.
 
-To reach out please contact [@lordcodes on Twitter](https://twitter.com/lordcodes).
+To reach out, please contact [@lordcodes on Twitter](https://twitter.com/lordcodes).

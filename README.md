@@ -25,7 +25,7 @@ Compression is currently handled using the really powerful [TinyPNG service](htt
 &nbsp;
 
 <p align="center">
-    <a href="#features">Features</a> • <a href="#install">Install</a> • <a href="#usage">Usage</a>
+    <a href="#features">Features</a> • <a href="#install">Install</a> • <a href="#usage">Usage</a> • <a href="#contributing-or-help">Contributing</a>
 </p>
 
 ## Features

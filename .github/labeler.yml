@@ -3,7 +3,11 @@ repo:
   - ./*
 
 documentation:
+  - .github/ISSUE_TEMPLATE/*
+  - .github/PULL_REQUEST_TEMPLATE.md
   - README.md
+  - CODE_OF_CONDUCT.md
+  - CONTRIBUTING.md
 
 tests:
   - Tests/**/*

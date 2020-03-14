@@ -5,14 +5,14 @@
 <p align="center">
     <img src="https://img.shields.io/badge/Swift-5.1-orange.svg" />
     <a href="https://swift.org/package-manager">
-        <img src="https://img.shields.io/badge/swiftpm-compatible-brightgreen.svg?style=flat" alt="Swift Package Manager" />
+        <img src="https://img.shields.io/badge/swiftpm-compatible-blueviolet.svg?style=flat" alt="Swift Package Manager" />
     </a>
-     <img src="https://img.shields.io/badge/platforms-mac+linux-brightgreen.svg?style=flat" alt="Mac + Linux" />
      <a href="https://github.com/lordcodes/imagecram/releases/latest">
          <img src="https://img.shields.io/github/release/lordcodes/imagecram.svg?style=flat" alt="Latest release" />
      </a>
+     <img src="https://img.shields.io/badge/platforms-mac+linux-brightgreen.svg?style=flat" alt="Mac + Linux" />
     <a href="https://twitter.com/lordcodes">
-        <img src="https://img.shields.io/badge/twitter-@lordcodes-blue.svg?style=flat" alt="Twitter: @lordcodes" />
+        <img src="https://img.shields.io/badge/twitter-@lordcodes-00acee.svg?style=flat" alt="Twitter: @lordcodes" />
     </a>
 </p>
 

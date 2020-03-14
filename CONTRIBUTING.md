@@ -4,7 +4,7 @@ If this is your first time contributing to Imagecram, please have a read through
 
 ## Reporting a bug
 
-* Compare the version you have installed with `imagecram -v` and check it against [the latest version](https://github.com/lordcodes/imagecram/releases).
+* Compare the version you have installed with `imagecram -v` against [the latest version](https://github.com/lordcodes/imagecram/releases).
 * Check the issue hasn't [already been reported](https://github.com/lordcodes/imagecram/issues).
 * Check there isn't already an [open pull request](https://github.com/lordcodes/imagecram/pulls) to fix the issue.
 * [Open an issue](https://github.com/lordcodes/imagecram/issues/new/choose) providing as much information as possible.
@@ -17,12 +17,14 @@ If this is your first time contributing to Imagecram, please have a read through
 
 ## Developing
 
+If you want to make changes, please make sure to discuss anything big before putting in the effort of creating the PR.
+
 * Ensure you have the latest version of Swift installed, the easiest way is via Xcode.
 * Clone the repository.
 * To build: `swift build`.
 * To test: `swift test`.
 * To format code: `swift run task format`.
 * To run lint: `swift run task lint`.
-* To run locally: `swift run imagecram-cli`
+* To run locally: `swift run imagecram-cli`.
 
 Thanks!

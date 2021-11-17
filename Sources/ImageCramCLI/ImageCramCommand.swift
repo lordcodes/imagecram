@@ -15,10 +15,10 @@ struct ImageCramCommand: ParsableCommand {
     var output: String?
 
     @Flag(name: .shortAndLong, help: "Output the version number")
-    var version: Bool
+    var version: Bool = false
 
     @Flag(name: .shortAndLong, help: "Silence any output except errors")
-    var quiet: Bool
+    var quiet: Bool = false
 
     func validate() throws {
         if version {

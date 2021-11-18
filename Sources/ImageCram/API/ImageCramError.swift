@@ -20,7 +20,7 @@ public struct ImageCramError: Error {
 extension ImageCramError: CustomStringConvertible {
     public var description: String {
         """
-        ImageCram encounted an error at '\(path)'.
+        ImageCram encountered an error at '\(path)'.
         Reason: \(reason)
         """
     }

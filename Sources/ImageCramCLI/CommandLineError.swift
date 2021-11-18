@@ -12,7 +12,7 @@ enum CommandLineError: Error {
 extension CommandLineError: CustomStringConvertible {
     public var description: String {
         """
-        ImageCram encounted an error.
+        ImageCram encountered an error.
         Reason: \(reason)
         """
     }

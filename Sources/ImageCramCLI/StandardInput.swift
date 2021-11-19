@@ -3,7 +3,6 @@
 import Foundation
 
 enum StandardInput {
-
     /// Check if the standard input buffer has received any data.
     /// Useful to prevent blocking the process if when no data is available.
     ///
